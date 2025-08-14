@@ -1,0 +1,8 @@
+var obj = {
+  x: 100,
+  y: 200,
+  foo: foo,
+  complex: {
+    bar: true,
+  }
+}
