@@ -10,6 +10,7 @@ import {
   AssignmentExpr,
   Property,
   ObjectLiteral,
+  ExpressionStatement,
 } from "./ast.ts";
 import { lex, Token, TokenType } from "./lexer.ts";
 
@@ -57,8 +58,14 @@ export default class Parser {
       case TokenType.Var:
       case TokenType.Mutable:
         return this.parseVariableDeclaration();
-      default:
-        return this.parseExpression();
+      default: {
+        // Wrap bare expressions as ExpressionStatement
+        const expr = this.parseExpression();
+        return {
+          kind: "ExpressionStatement",
+          expression: expr,
+        } as ExpressionStatement;
+      }
     }
   }
 

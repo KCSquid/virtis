@@ -7,6 +7,7 @@ import {
   Program,
   Statement,
   VariableDeclaration,
+  ExpressionStatement,
 } from "./ast.ts";
 import Environment from "./environment.ts";
 import {
@@ -18,7 +19,8 @@ import { evaluateProgram, evaluateVariableDeclaration } from "./statements.ts";
 
 export function interpret(
   tree: Statement,
-  environment: Environment
+  environment: Environment,
+  shell: boolean = false
 ): RuntimeValue {
   switch (tree.kind) {
     case "NumericLiteral":
@@ -48,9 +50,21 @@ export function interpret(
     case "AssignmentExpr":
       return evaluateAssignment(tree as AssignmentExpr, environment);
 
+    case "ExpressionStatement": {
+      const exprStmt = tree as ExpressionStatement;
+      const value = interpret(exprStmt.expression, environment);
+
+      // dont repeat in shell & is not variable assignment
+      if (!shell && exprStmt.expression.kind !== "AssignmentExpr") {
+        console.log(value)
+      }
+
+      return value;
+    }
+
     default:
       // console.log(tree);
-      return tree as any
+      return tree as any;
     // throw `AST Node ?: ${tree}`;
   }
 }

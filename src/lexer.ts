@@ -49,6 +49,9 @@ function isWhiteSpace(source: string) {
 
 export function lex(content: string): Token[] {
   const tokens = new Array<Token>();
+
+  content = content.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
+
   const src = content.split("");
 
   while (src.length > 0) {
@@ -65,12 +68,14 @@ export function lex(content: string): Token[] {
       tokens.push(buildToken(TokenType.BinaryOperator, src.shift()));
     } else if (src[0] == "=") {
       tokens.push(buildToken(TokenType.Equals, src.shift()));
-    } else if (src[0] == ";") {
-      tokens.push(buildToken(TokenType.Semicolon, src.shift()));
     } else if (src[0] == ",") {
       tokens.push(buildToken(TokenType.Comma, src.shift()));
     } else if (src[0] == ":") {
       tokens.push(buildToken(TokenType.Colon, src.shift()));
+    } else if (src[0] == ";") {
+      src.shift();
+      continue;
+      // tokens.push(buildToken(TokenType.Semicolon, src.shift()));
     }
 
     // long

@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "main": "deno run -A src/virtis.ts -f main.vrt"
+    "main": "deno run -A src/virtis.ts -f main.vrt",
+    "shell": "deno run -A src/virtis.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"

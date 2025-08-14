@@ -55,7 +55,7 @@ function shell() {
     }
 
     const program = parser.buildAST(input);
-    const result = interpret(program, environment);
+    const result = interpret(program, environment, true);
     console.log("\nTree:\n", program, "\n\nResult:\n", result, "\n\n-----\n");
   }
 }
@@ -94,8 +94,9 @@ function comp() {
   }
 
   const tree = parser.buildAST(fs.readFileSync(filename, "utf8"));
-  const result = interpret(tree, environment);
-  console.log("\nResult:\n", result, "\n");
+  interpret(tree, environment);
+  // const result = interpret(tree, environment);
+  // console.log("\nResult:\n", result, "\n");
 }
 
 comp();

@@ -10,7 +10,8 @@ export type NodeType =
   | "VariableDeclaration"
   | "AssignmentExpr"
   | "Property"
-  | "ObjectLiteral";
+  | "ObjectLiteral"
+  | "ExpressionStatement";
 
 export interface Statement {
   kind: NodeType;
@@ -28,7 +29,7 @@ export interface VariableDeclaration extends Statement {
   value?: Expression;
 }
 
-export interface Expression extends Statement {}
+export interface Expression extends Statement { }
 
 export interface AssignmentExpr extends Expression {
   kind: "AssignmentExpr";
@@ -60,11 +61,16 @@ export interface NullLiteral extends Expression {
 
 export interface Property extends Expression {
   kind: "Property";
-  key: String;
+  key: string;
   value?: Expression;
 }
 
 export interface ObjectLiteral extends Expression {
   kind: "ObjectLiteral";
   properties: Property[];
+}
+
+export interface ExpressionStatement extends Statement {
+  kind: "ExpressionStatement";
+  expression: Expression;
 }
